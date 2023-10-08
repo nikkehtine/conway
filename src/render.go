@@ -11,7 +11,6 @@ func draw() {
 
 	for !raylib.WindowShouldClose() {
 		raylib.BeginDrawing()
-
 		raylib.ClearBackground(raylib.White)
 
 		for i := range universe {
@@ -28,6 +27,13 @@ func draw() {
 							return raylib.RayWhite
 						}
 					}(cell),
+				)
+				raylib.DrawRectangleLines(
+					int32(i)*w.CellSize,
+					int32(j)*w.CellSize,
+					w.CellSize+1,
+					w.CellSize+1,
+					raylib.Black,
 				)
 			}
 		}
