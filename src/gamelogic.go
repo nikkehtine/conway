@@ -2,52 +2,49 @@ package main
 
 import (
 	"log"
-	"math/rand"
 )
 
-var current_cell bool
-var next_cell bool
-var neighbors int // 0...8
-
-type Grid [][]bool
-
-func make2DArray(cols int, rows int) Grid {
-	arr := make(Grid, cols)
-	for i := 0; i < cols; i++ {
-		arr[i] = make([]bool, rows)
-	}
-	return arr
-}
-
-func randomizeGrid(grid Grid) *Grid {
-	cols := len(grid)
-	rows := len(grid[0])
-
-	for i := 0; i < cols; i++ {
-		for j := 0; j < rows; j++ {
-			if rand.Intn(3) == 0 {
-				grid[i][j] = true
-			}
+func updateWorld() {
+	for i := range currentGen {
+		for j := range currentGen[i] {
+			nextGen[i][j] = updateCell(
+				currentGen[i][j],
+				countNeighbors(i, j),
+			)
 		}
 	}
-	return &grid
+	currentGen = nextGen
 }
 
-func update_cell() {
+func updateCell(currentCell bool, neighbors int) bool {
 	if neighbors < 0 || neighbors > 8 {
 		log.Fatal("Neighbors out of bounds!")
 	}
-	if current_cell {
-		if neighbors == 3 {
-			next_cell = true
-		} else {
-			next_cell = false
-		}
+
+	if currentCell {
+		return 2 <= neighbors && neighbors <= 3
 	} else {
-		if 2 <= neighbors && neighbors <= 3 {
-			next_cell = true
-		} else {
-			next_cell = false
+		return neighbors == 3
+	}
+}
+
+func countNeighbors(x, y int) int {
+	var neighbors int
+	for i := -1; i < 2; i++ {
+		if x+i < 0 || x+i >= len(currentGen) {
+			continue
+		}
+		for j := -1; j < 2; j++ {
+			if y+j < 0 || y+j >= len(currentGen[0]) {
+				continue
+			}
+			if i == 0 && j == 0 {
+				continue
+			}
+			if currentGen[x+i][y+j] {
+				neighbors++
+			}
 		}
 	}
+	return neighbors
 }

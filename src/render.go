@@ -13,8 +13,8 @@ func draw() {
 		raylib.BeginDrawing()
 		raylib.ClearBackground(raylib.White)
 
-		for i := range universe {
-			for j, cell := range universe[i] {
+		for i := range currentGen {
+			for j, cell := range currentGen[i] {
 				raylib.DrawRectangle(
 					int32(i)*w.CellSize,
 					int32(j)*w.CellSize,
@@ -37,6 +37,8 @@ func draw() {
 				)
 			}
 		}
+
+		updateWorld()
 
 		raylib.EndDrawing()
 	}

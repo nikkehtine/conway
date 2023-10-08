@@ -1,5 +1,6 @@
 package main
 
+type Grid [][]bool
 type Window struct {
 	Width, Height int32
 	Title         string
@@ -7,21 +8,22 @@ type Window struct {
 	CellSize      int32
 }
 
+var currentGen, nextGen Grid
 var w = Window{
 	Width:    800,
 	Height:   450,
 	Title:    "Game of Life",
-	FPS:      30,
+	FPS:      12,
 	CellSize: 8,
 }
-
-var universe Grid
 
 func main() {
 	cols := int(w.Width / w.CellSize)
 	rows := int(w.Height / w.CellSize)
 
-	universe = make2DArray(cols, rows)
-	randomizeGrid(universe)
+	currentGen = make2DArray(cols, rows)
+	randomizeGrid(currentGen)
+	nextGen = make2DArray(cols, rows)
+
 	draw()
 }
