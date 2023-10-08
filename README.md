@@ -23,8 +23,9 @@ air
 -   [x] Render the application using [raylib](https://www.raylib.com/)
 -   [x] Add a randomizer for the grid
 -   [ ] Implement Game of Life logic
--   [ ] Add window controls
+-   [ ] Add controls
     -   [ ] Play, pause
     -   [ ] Step through generations
-    -   [ ] Trails switch
+    -   [ ] Trails + switch
     -   [ ] Speed controller
+    -   [ ] Themes + switch

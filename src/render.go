@@ -14,25 +14,20 @@ func draw() {
 
 		raylib.ClearBackground(raylib.White)
 
-		getColor := func(alive bool) raylib.Color {
-			var color raylib.Color
-			if alive {
-				color = raylib.Black
-			} else {
-				color = raylib.RayWhite
-			}
-			return color
-		}
-
 		for i := range universe {
 			for j, cell := range universe[i] {
-
 				raylib.DrawRectangle(
 					int32(i)*w.CellSize,
 					int32(j)*w.CellSize,
 					w.CellSize,
 					w.CellSize,
-					getColor(cell),
+					func(alive bool) raylib.Color {
+						if alive {
+							return raylib.Black
+						} else {
+							return raylib.RayWhite
+						}
+					}(cell),
 				)
 			}
 		}
