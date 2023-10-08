@@ -12,7 +12,7 @@ var w = Window{
 	Height:   450,
 	Title:    "Game of Life",
 	FPS:      30,
-	CellSize: 5,
+	CellSize: 8,
 }
 
 var universe Grid
