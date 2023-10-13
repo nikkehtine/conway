@@ -16,7 +16,7 @@ var w = Window{
 	Width:    800,
 	Height:   450,
 	Title:    "Game of Life",
-	FPS:      12,
+	FPS:      18,
 	CellSize: 8,
 }
 
@@ -39,28 +39,16 @@ func main() {
 		raylib.BeginDrawing()
 		raylib.ClearBackground(raylib.White)
 
-		for x := 0; x < WorldX; x++ {
-			for y := 0; y < WorldY; y++ {
-				raylib.DrawRectangle(
-					int32(x)*w.CellSize,
-					int32(y)*w.CellSize,
-					w.CellSize,
-					w.CellSize,
-					func(alive bool) raylib.Color {
-						if alive {
-							return raylib.Black
-						} else {
-							return raylib.RayWhite
-						}
-					}(universe[x][y]),
-				)
-				raylib.DrawRectangleLines(
-					int32(x)*w.CellSize,
-					int32(y)*w.CellSize,
-					w.CellSize+1,
-					w.CellSize+1,
-					raylib.Black,
-				)
+		for col := 0; col < WorldX; col++ {
+			for row := 0; row < WorldY; row++ {
+				size := w.CellSize
+				x, y := int32(col)*size, int32(row)*size
+				color, lnColor := raylib.RayWhite, raylib.Black
+				if universe[col][row] {
+					color = raylib.Black
+				}
+				raylib.DrawRectangle(x, y, size, size, color)
+				raylib.DrawRectangleLines(x, y, size+1, size+1, lnColor)
 			}
 		}
 

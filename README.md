@@ -10,10 +10,11 @@ make build && make run
 
 -   [x] Render the application using [raylib](https://www.raylib.com/)
 -   [x] Add a randomizer for the grid
--   [ ] Implement Game of Life logic
+-   [x] Implement Game of Life logic
 -   [ ] Add controls
     -   [ ] Play, pause
     -   [ ] Step through generations
     -   [ ] Trails + switch
     -   [ ] Speed controller
     -   [ ] Themes + switch
+-   [ ] Add mouse input
