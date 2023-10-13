@@ -1,5 +1,9 @@
 package main
 
+import (
+	raylib "github.com/gen2brain/raylib-go/raylib"
+)
+
 type Grid [][]bool
 type Window struct {
 	Width, Height int32
@@ -8,7 +12,6 @@ type Window struct {
 	CellSize      int32
 }
 
-var currentGen, nextGen Grid
 var w = Window{
 	Width:    800,
 	Height:   450,
@@ -17,13 +20,52 @@ var w = Window{
 	CellSize: 8,
 }
 
+var universe Grid
+
 func main() {
-	cols := int(w.Width / w.CellSize)
-	rows := int(w.Height / w.CellSize)
+	WorldX := int(w.Width / w.CellSize)
+	WorldY := int(w.Height / w.CellSize)
 
-	currentGen = make2DArray(cols, rows)
-	randomizeGrid(currentGen)
-	nextGen = make2DArray(cols, rows)
+	universe = make2DArray(WorldX, WorldY)
+	universe = randomizeWorld(universe) // Randomize by default (for now)
 
-	draw()
+	// It's raylibbing time
+
+	raylib.InitWindow(w.Width, w.Height, w.Title)
+	defer raylib.CloseWindow()
+	raylib.SetTargetFPS(w.FPS)
+
+	for !raylib.WindowShouldClose() {
+		raylib.BeginDrawing()
+		raylib.ClearBackground(raylib.White)
+
+		for x := 0; x < WorldX; x++ {
+			for y := 0; y < WorldY; y++ {
+				raylib.DrawRectangle(
+					int32(x)*w.CellSize,
+					int32(y)*w.CellSize,
+					w.CellSize,
+					w.CellSize,
+					func(alive bool) raylib.Color {
+						if alive {
+							return raylib.Black
+						} else {
+							return raylib.RayWhite
+						}
+					}(universe[x][y]),
+				)
+				raylib.DrawRectangleLines(
+					int32(x)*w.CellSize,
+					int32(y)*w.CellSize,
+					w.CellSize+1,
+					w.CellSize+1,
+					raylib.Black,
+				)
+			}
+		}
+
+		universe = update(universe)
+
+		raylib.EndDrawing()
+	}
 }
